@@ -1,0 +1,20 @@
+# Full datasets (too large for GitHub)
+products.csv
+reviews.csv
+users.csv
+jcpenney_products.json
+jcpenney_reviewers.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+*.pyc
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.jupyter/
