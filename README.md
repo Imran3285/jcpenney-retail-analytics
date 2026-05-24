@@ -38,37 +38,36 @@ The data covers **7,982 products**, **39,063 reviews**, and **5,000 customer pro
 Audited all five files using Python (Pandas):
 
 - No duplicates found across any dataset — clean uniqueness throughout
-- Null values found in `Price` (products.csv) and `list_price`/`sale_price` (jcpenney_products.json) — filled using **median** imputation
+- Null values in `Price` and `list_price`/`sale_price` — filled using **median imputation**
 - Rows with null `SKU` removed — a product without a key identifier has no analytical value
-- **Outliers removed from price columns:** raw data contained negative prices (−$65) and unrealistically high values ($17,122) — filtered to realistic 0–$200 range
-- Score = 0 reviews treated as system defaults with no business meaning — excluded from satisfaction analysis
+- **Outliers removed:** raw data contained negative prices (−$65) and unrealistically high values ($17,122) — filtered to 0–$200 range
+- Score = 0 reviews excluded — system defaults with no business meaning
 - DOB converted from string to datetime for accurate age calculation
 
 ### Feature Engineering
-Created analytical variables to support segmentation and clustering:
 
-- `Age` — derived from DOB to enable demographic analysis
-- `Age_Group` — binned into: <25, 25–34, 35–44, 45–54, 55–64, 65+
-- `discount_pct` — calculated as `(list_price − sale_price) / list_price × 100`
-- `Sentiment` — TextBlob polarity score for each review text (−1 to +1)
-- `Reviewed_Count` — number of products each reviewer engaged with
-- `F_Score` / `M_Score` — frequency and monetary proxies for RFM segmentation
+- `Age` — derived from DOB for demographic analysis
+- `Age_Group` — binned into: `<25`, `25–34`, `35–44`, `45–54`, `55–64`, `65+`
+- `discount_pct` — `(list_price − sale_price) / list_price × 100`
+- `Sentiment` — TextBlob polarity score per review (−1 to +1)
+- `Reviewed_Count` — number of products each customer engaged with
+- `F_Score` / `M_Score` — frequency and satisfaction proxies for RFM segmentation
 
 ### Exploratory Data Analysis (EDA)
-Performed systematic analysis using Python:
 
-- Price distribution → confirmed right-skewed mid-market positioning
-- Score distributions → exposed a 79.1% dissatisfaction rate among reviewers
-- Age profiling → revealed generational abandonment (mean age 47.8)
-- Geographic spread → customers distributed across all 57 US states
-- Discount analysis → found 72.3% of products permanently discounted
+- **Price distribution** → right-skewed, mass under $75 — confirmed mid-market positioning
+- **Score distributions** → 79.1% of reviews score 1–2 stars — not a quality blip, a structural crisis
+- **Age profiling** → mean age 47.8, only 24.6% under 35 — generational pipeline is depleted
+- **Geographic spread** → customers across 50 US states and territories
+- **Discount analysis** → 72.3% of products permanently discounted at 42.4% average depth
 
 ### Sentiment Analysis
 Applied TextBlob to 39,063 customer reviews:
 
-- Most reviews cluster in 0.2–0.4 polarity range — mildly positive language without enthusiasm
-- Negative tail driven by fabric quality, fit issues, and return frustrations
-- Sentiment polarity validates star rating trends but adds texture to *why* customers are dissatisfied
+- Most reviews cluster in **0.2–0.4 polarity** — mildly positive language, no brand enthusiasm
+- Negative tail driven by: fabric quality, sizing inconsistency, return frustrations
+- Top negative keywords: *return* (1,806), *disappointed* (797), *cheap* (412), *shrink* (383)
+- Sentiment confirms star rating trends but reveals *why* — not just *how bad*
 
 ### Customer Segmentation (RFM Proxy)
 Constructed RFM-style segments using review frequency (F) and average satisfaction score (M):
@@ -76,14 +75,14 @@ Constructed RFM-style segments using review frequency (F) and average satisfacti
 | Segment | Count | Avg Score | Interpretation |
 |---------|-------|-----------|----------------|
 | Lost Customers | 2,035 | 1.29★ | Active but deeply dissatisfied |
-| Engaged but Dissatisfied | 1,677 | 1.40★ | Highest review frequency, lowest satisfaction — dangerous |
+| Engaged but Dissatisfied | 1,677 | 1.40★ | Highest frequency, lowest satisfaction — most dangerous |
 | Potential Loyalists | 630 | 2.38★ | Recoverable with targeted intervention |
 | At-Risk Customers | 627 | 1.36★ | Trending toward disengagement |
 | Satisfied but Dormant | 22 | 3.53★ | Happy but silent — reactivation opportunity |
-| Loyal Advocates | **2** | 3.27★ | The brand's rarest asset |
+| **Loyal Advocates** | **2** | 3.27★ | **The brand's rarest asset** |
 
-### K-Means Product Clustering
-Grouped the 7,982-product catalogue into four strategic clusters using list price, sale price, discount depth, and rating:
+### K-Means Product Clustering (k=4)
+Grouped 7,982 products by price, discount depth, and rating:
 
 | Cluster | Products | Avg List Price | Avg Discount | Avg Rating | Label |
 |---------|----------|----------------|--------------|------------|-------|
@@ -91,7 +90,7 @@ Grouped the 7,982-product catalogue into four strategic clusters using list pric
 | 1 | 110 | $2,409 | 29% | 3.03★ | Premium Niche |
 | 3 | 2,683 | $90 | 50% | **3.67★** | Value Champions |
 
-**Value Champions** (Cluster 3) achieve the highest customer satisfaction despite carrying the heaviest discounts — confirming quality-to-price ratio matters more than price alone.
+**Key insight:** Value Champions achieve the highest satisfaction *despite* the heaviest discounts — confirming quality-to-price ratio matters more than price alone.
 
 ### Correlation Analysis
 Heatmap across pricing and rating variables:
