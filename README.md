@@ -186,11 +186,11 @@ Click [`notebooks/jcpenney_analytics.ipynb`](notebooks/jcpenney_analytics.ipynb)
 │       ├── users_sample.csv
 │       ├── jcpenney_products_sample.json
 │       └── jcpenney_reviewers_sample.json
+├── images/                             ← All visualisation outputs
 ├── notebooks/
 │   └── jcpenney_analytics.ipynb        ← Full analysis pipeline
 ├── reports/
 │   └── jcpenney_analytics_report.html  ← Interactive executive report
-├── images/                             ← All visualisation outputs
 └── README.md
 ```
 
@@ -220,5 +220,3 @@ Open `notebooks/jcpenney_analytics.ipynb` and run all cells top to bottom.
 ## Author
 
 **Muhammad Imran**  
-MSc Data Science for Business  
-[GitHub Profile →](https://github.com/Imran3285)
